@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzl.csdn.mapper.CsdnAlarmStatisticsMapper">
+    <select id="getAlarmStatistics" resultType="com.xzl.csdn.domain.vo.BoardStatisticsVO">
+        SELECT alarm_type name, sum(alarm_count) code
+        FROM csdn_alarm_statistics
+        GROUP BY alarm_type;
+    </select>
+
+    <select id="queryAlarmStatisticsList" resultType="com.xzl.csdn.domain.vo.MalfunctionFromVO">
+        SELECT register_code registerCode,device_number
+        deviceNo,alarm_type alarmType,location_name locationName,location_type locationType,inner_no
+        innerNo,maintenance_unit_name maintenanceUnitName,
+        use_unit_name useUnitName,sum(alarm_count) alarmCount FROM csdn_alarm_statistics
+        <where>
+            <if test="query.startTime1 != null and query.startTime1 != ''">
+                and create_time >= #{query.startTime1,jdbcType=VARCHAR}
+            </if>
+            <if test="query.endTime1 != null and query.endTime1 != ''">
+                and create_time &lt;= #{query.endTime1,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY register_code order by alarmCount desc
+    </select>
+
+    <select id="getAlarmStatisticsMonth" resultType="com.xzl.csdn.domain.vo.BoardStatisticsVO">
+        SELECT
+        DATE_FORMAT(create_time, '%Y-%m-%d') name,
+        IFNULL(sum(alarm_count), 0) code
+        FROM csdn_alarm_statistics
+        <where>
+            <if test="query.startTime1 != null and query.startTime1 != ''">
+                and create_time >= #{query.startTime1,jdbcType=VARCHAR}
+            </if>
+            <if test="query.endTime1 != null and query.endTime1 != ''">
+                and create_time &lt;= #{query.endTime1,jdbcType=VARCHAR}
+            </if>
+        </where>
+        GROUP BY name
+    </select>
+</mapper>

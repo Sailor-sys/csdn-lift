@@ -1,0 +1,44 @@
+{
+	"data": [{
+		"townCode": "330102",
+		"townName": "上城区"
+	}, {
+		"townCode": "330103",
+		"townName": "下城区"
+	}, {
+		"townCode": "330104",
+		"townName": "江干区"
+	}, {
+		"townCode": "330105",
+		"townName": "拱墅区"
+	}, {
+		"townCode": "330106",
+		"townName": "西湖区"
+	}, {
+		"townCode": "330108",
+		"townName": "滨江区"
+	}, {
+		"townCode": "330109",
+		"townName": "萧山区"
+	}, {
+		"townCode": "330110",
+		"townName": "余杭区"
+	}, {
+		"townCode": "330111",
+		"townName": "富阳区"
+	}, {
+		"townCode": "330122",
+		"townName": "桐庐县"
+	}, {
+		"townCode": "330127",
+		"townName": "淳安县"
+	}, {
+		"townCode": "330182",
+		"townName": "建德市"
+	}, {
+		"townCode": "330185",
+		"townName": "临安市"
+	}],
+	"message": "成功",
+	"status": 100
+}

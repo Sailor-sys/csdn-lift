@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzl.csdn.mapper.CsdnBoardMapper">
+    <select id="getLiftCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM csdn_lift
+        WHERE 1=1
+        <if test="query.registerCodeList != null and query.registerCodeList.size > 0">
+            <if test="query.registerCodeList != null and query.registerCodeList.size > 0">
+                and register_code in
+                <foreach collection="query.registerCodeList" separator="," item="item" open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </if>
+        <if test="query.registerCodeList == null">
+            AND town_code = #{query.townCode,jdbcType=INTEGER}
+        </if>
+        <if test="query.streetCode != null">
+            and street_code = #{query.streetCode,jdbcType=VARCHAR}
+        </if>
+        <if test="query.startTime1 != null">
+            and production_date >= #{query.startTime1,jdbcType=VARCHAR}
+        </if>
+        <if test="query.endTime1 != null">
+            and production_date &lt;= #{query.endTime1,jdbcType=VARCHAR}
+        </if>
+        <if test="query.locationType != null">
+            and location_type = #{query.locationType,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <select id="getLiftInfo" resultType="com.xzl.csdn.domain.vo.CsdnLiftInfoVO">
+        select register_code registerCode,
+               location_name locationName,
+               detail_address liftName,
+               use_unit_name unitName,
+               maintenance_unit_name maintainEnterName,
+               production_date madeTime,
+               street_code streetCode,
+               location_type locationType
+        from csdn_lift
+        where register_code = #{query.registerCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryLiftInfo" resultType="com.xzl.csdn.domain.entity.ZhptLiftInfo">
+        SELECT *
+        FROM zhpt_errorinfo
+        where townCode = #{query.townCode,jdbcType=INTEGER}
+    </select>
+</mapper>

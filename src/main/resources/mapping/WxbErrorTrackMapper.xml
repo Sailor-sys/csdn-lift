@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzl.csdn.mapper.WxbErrorTrackMapper">
+    <select id="getUserById" resultType="com.xzl.csdn.domain.entity.WxbUser">
+        SELECT *
+        FROM `bak_wxb_user`
+        where id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAlarmDetailInfo" resultType="com.xzl.csdn.domain.vo.AlarmDetailVO">
+        SELECT e.error_no             errorNo,
+               e.error_type           errorType,
+               e.error_type_name      errorTypeName,
+               e.error_source_type    errorSourceType,
+               e.error_source_name    errorSourceName,
+               e.rescue_model         rescueModel,
+               e.rescue_model_name    rescueModelName,
+               l.location_name        plotName,
+               l.location_address  as locationAddress,
+               l.lift_name            liftName,
+               l.regi_name            regiName,
+               l.register_code        registerCode,
+               l.lift_no              liftNo,
+               e.maint_id             maintId,
+               e.maint_name           maintName,
+               e.property_id          propertyId,
+               e.property_name        propertyName,
+               e.external_order_no    externalOrderNo,
+               e.remark            as remark,
+               l.location_guid        plotId,
+               l.maintain_oper        maintChargeMan,
+               l.maintain_phone       maintContactPhone,
+               l.charge_oper          propertyChargeMan,
+               l.charge_phone         propertyContactPhone,
+               l.yt_flag              ytFlag,
+               e.error_person_name as errorPersonName,
+               e.phone_no          as phoneNo,
+               l.location_name     as locationName
+        FROM wxb_error_info e
+                 LEFT JOIN
+             wxb_lift l
+             ON e.device_no = l.register_code
+        where e.error_no = #{errorNo}
+    </select>
+</mapper>

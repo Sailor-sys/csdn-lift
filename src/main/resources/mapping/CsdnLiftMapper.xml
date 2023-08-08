@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzl.csdn.mapper.CsdnLiftMapper">
+    <select id="queryListByLocationName" resultType="java.lang.String">
+        SELECT *
+        FROM `csdn_lift`
+        WHERE use_status = 1
+        AND `town_code` = #{query.townCode,jdbcType=INTEGER}
+        <if test="query.locationNameList != null and query.locationNameList.size > 0">
+            and `location_name` in
+            <foreach collection="query.locationNameList" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getLiftLonLat" resultType="com.xzl.csdn.domain.vo.CsdnLiftPositionVO">
+        SELECT register_code,lon, lat
+        FROM csdn_lift
+        WHERE use_status = 1
+        AND town_code =
+        #{query.townCode,jdbcType=INTEGER}
+        <if test="query.streetCode != null and query.streetCode != ''">
+            AND street_code = #{query.streetCode,jdbcType=STRING}
+        </if>
+    </select>
+
+    <select id="getLift" resultType="com.xzl.csdn.domain.entity.CsdnLift">
+        select *
+        from csdn_lift
+        where register_code = #{registerCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryLift" resultType="com.xzl.csdn.domain.entity.CsdnLift">
+        select * from csdn_lift
+        where 1=1
+        <if test="query.registerCode != null and query.registerCode != ''">
+            AND register_code = #{query.registerCode,jdbcType=STRING}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xzl.csdn.mapper.ZhptAlarmSiteMapper">
+    <select id="getLiftLonLatByAlarm" resultType="com.xzl.csdn.domain.vo.CsdnLiftPositionVO">
+        SELECT zas.register_code , zas.register_code errorNo
+        FROM zhpt_alarm_site zas left join csdn_lift cl on zas.register_code = cl.register_code
+        WHERE zas.status = 0
+        <if test="query.registerCodeList != null and query.registerCodeList.size > 0">
+            AND zas.register_code in
+            <foreach collection="query.registerCodeList" separator="," item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="query.liftPositType != null and query.liftPositType != ''">
+            AND zas.error_type = #{query.liftPositType,jdbcType=VARCHAR}
+        </if>
+        <if test="query.errorNo != null and query.errorNo != ''">
+            AND zas.register_code = #{query.errorNo,jdbcType=VARCHAR}
+        </if>
+        <if test="query.locationType != null and query.locationType != ''">
+            AND cl.location_type = #{query.locationType,jdbcType=VARCHAR}
+        </if>
+        <if test="query.streetCode != null and query.streetCode != ''">
+            AND cl.street_code = #{query.streetCode,jdbcType=VARCHAR}
+        </if>
+        <if test="query.startTime1 != null and query.startTime1 != ''">
+            AND cl.production_date >= #{query.startTime1,jdbcType=VARCHAR}
+        </if>
+        <if test="query.endTime1 != null and query.endTime1 != ''">
+            AND cl.production_date &lt;= #{query.endTime1,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>
